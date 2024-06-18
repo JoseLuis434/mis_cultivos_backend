@@ -17,12 +17,14 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('location')->nullable();
             $table->string('type')->nullable();
-            $table->string('days')->nullable();
-            $table->string('stage')->nullable(); 
+            $table->float('days')->nullable();
+            $table->string('stage')->nullable();
             $table->string('irrigation')->nullable();
-            $table->timestamp('crop_verified_at')->nullable();
+            $table->float('container_area_base')->nullable();
+            $table->float('container_height')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
+            $table->foreignId('id_user')->nullable()->constrained('users')->cascadeOnUpdate()->nullOnDelete();
         });
     }
 

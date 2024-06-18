@@ -12,6 +12,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function crops(){
+        return $this->hasMany(Crop::class, 'id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

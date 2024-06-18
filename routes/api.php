@@ -33,3 +33,9 @@ Route::post('updatePassword', [UserControllerLogin::class, 'updatePassword']);
 Route::post('addCrop', [CropController::class, 'addCrop']);
 
 Route::post('getCrops', [CropController::class, 'getCrops']);
+
+Route::post('getCrop', [CropController::class, 'getCrop']);
+
+Route::post('getMeasuresWaterContainer', [CropController::class, 'getMeasuresWaterContainer']);
+
+Route::post('setMeasuresWaterContainer', [CropController::class, 'setMeasuresWaterContainer']);

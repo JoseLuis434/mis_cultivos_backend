@@ -17,7 +17,7 @@ class UserControllerLogin extends Controller
         if (Auth::attempt($credentials)) {
             return response()->json(['message' => 'authorized']);
         }
-        return response()->json(['message' => 'Unauthorized']);
+        return response()->json(['message' => 'Unauthorized'], 401);
     }
 
     public function register(Request $request)
@@ -41,10 +41,12 @@ class UserControllerLogin extends Controller
 
     public function sendCode(Request $request)
     {
+        if($request->code == null){
+            return response()->json(['message' => 'failed']);
+        }
         $user = User::where('email', $request->email)->first();
         $code = $request->code;
         if ($user->code_email == $code) {
-            $user->code_email = null;
             $user->email_verified_at = now();
             $user->save();
             return response()->json(['message' => 'success']);
@@ -64,7 +66,6 @@ class UserControllerLogin extends Controller
             return response()->json(['message' => 'error']);
         }
     }
-
     public function updatePassword(Request $request)
     {
         if ($request->code == NULL) {
@@ -83,6 +84,7 @@ class UserControllerLogin extends Controller
                     },
                 ],
             ]);
+
             if ($validator->fails()) {
                 return response()->json(['message' => $validator->errors()]);
             }
@@ -93,5 +95,10 @@ class UserControllerLogin extends Controller
         } else {
             return response()->json(['message' => 'error']);
         }
+    }
+
+    public function getIdUser($email){
+        $user = User::where("email", $email)->value('id');
+        return $user;
     }
 }
