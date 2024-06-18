@@ -14,10 +14,9 @@ class CropController extends Controller
         $loginController = new UserControllerLogin;
         if ($this->validateLogin($request, $loginController)) {
             $id_user = $loginController->getIdUser($request->email);
-            $crops = Crop::where('id_user', $id_user)->whereNotNull('crop_verified_at')->orderBy('crop_verified_at', 'desc')->get();
+            $crops = Crop::where('id_user', $id_user)->orderBy('created_at', 'desc')->get();
             return response()->json($crops);
         }
-        $crops = Crop::whereNotNull('crop_verified_at')->orderBy('crop_verified_at', 'desc')->get();
     }
 
     public function getCrop(Request $request)
@@ -34,7 +33,7 @@ class CropController extends Controller
         $loginController = new UserControllerLogin;
         if ($this->validateLogin($request, $loginController)) {
             if ($crop = Crop::where('id_device', $request->id_device)->first()) {
-                if ($crop->crop_verified_at != null) {
+                if ($crop->created_at != null) {
                     return response()->json(['message' => 'already_exists']);
                 }
                 $validator = Validator::make($request->all(), [
